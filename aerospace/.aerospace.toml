@@ -185,61 +185,8 @@ alt-shift-l = ['join-with right', 'mode main']
 
 ############
 [[on-window-detected]]
-if.app-id = 'dev.kdrag0n.MacVirt'
-run = 'layout floating'
-
-[[on-window-detected]]
-if.app-id = 'com.apple.Passwords'
-run = 'layout floating'
-
-[[on-window-detected]]
-if.app-id = 'dev.zed.Zed'
-run = 'layout floating'
-
-[[on-window-detected]]
-if.app-id = 'com.jiransoft.S1ESP'
-run = 'layout floating'
-
-[[on-window-detected]]
-if.app-id = 'ai.elementlabs.lmstudio'
-run = 'layout floating'
-
-[[on-window-detected]]
-if.app-id = 'com.renfei.SnippetsLab'
-run = 'layout floating'
-
-[[on-window-detected]]
-if.app-id = 'app.msty.app'
-run = 'layout floating'
-
-[[on-window-detected]]
-if.app-id = 'com.daisydiskapp.DaisyDiskStandAlone'
-run = 'layout floating'
-
-[[on-window-detected]]
-if.app-id = 'com.microsoft.Powerpoint'
-run = 'layout floating'
-
-[[on-window-detected]]
 if.app-id = 'com.anthropic.claudefordesktop'
 run = 'layout floating'
-
-[[on-window-detected]]
-if.app-id = 'net.xmind.vana.app'
-run = 'layout floating'
-
-[[on-window-detected]]
-if.app-id = 'com.linguee.DeepLCopyTranslator'
-run = 'layout floating'
-
-
-[[on-window-detected]]
-if.app-id = 'com.apple.iWork.Numbers'
-run = 'layout floating'
-
-# [[on-window-detected]]
-# if.app-id = 'com.apple.Preview'
-# run = 'layout floating'
 
 [[on-window-detected]]
 if.app-id = 'com.kakao.KakaoTalkMac'
@@ -250,27 +197,7 @@ if.app-id = 'com.apple.finder'
 run = 'layout floating'
 
 [[on-window-detected]]
-if.app-id = 'com.apple.Stickies'
-run = 'layout floating'
-
-[[on-window-detected]]
 if.app-id = 'com.apple.Notes'
-run = 'layout floating'
-
-[[on-window-detected]]
-if.app-id = 'com.microsoft.Excel'
-run = 'layout floating'
-
-[[on-window-detected]]
-if.app-id = 'com.devon-technologies.thinkpro2'
-run = 'layout floating'
-
-[[on-window-detected]]
-if.app-id = 'QReader.MarginStudy.easy'
-run = 'layout floating'
-
-[[on-window-detected]]
-if.app-id = 'com.amazonaws.acvc.osx'
 run = 'layout floating'
 
 #
@@ -278,23 +205,11 @@ run = 'layout floating'
 #
 
 [[on-window-detected]]
-if.app-id = 'company.thebrowser.Browser'
-run = "move-node-to-workspace q"         # Arc
-
-[[on-window-detected]]
 if.app-id = 'md.obsidian'
 run = "move-node-to-workspace o"
 
 [[on-window-detected]]
-if.app-id = 'com.microsoft.teams2'
-run = "move-node-to-workspace w"
-
-[[on-window-detected]]
 if.app-id = 'com.tinyspeck.slackmacgap'
-run = "move-node-to-workspace w"
-
-[[on-window-detected]]
-if.app-id = 'com.culturedcode.ThingsMac'
 run = "move-node-to-workspace w"
 
 [[on-window-detected]]
@@ -304,14 +219,6 @@ run = "move-node-to-workspace i"
 [[on-window-detected]]
 if.app-id = 'com.apple.mail'
 run = "move-node-to-workspace t"
-
-[[on-window-detected]]
-if.app-id = 'com.apple.iCal'
-run = "move-node-to-workspace t"
-
-[[on-window-detected]]
-if.app-id = 'company.thebrowser.dia'
-run = "move-node-to-workspace o"
 
 [[on-window-detected]]
 if.app-id = 'com.google.Chrome'
