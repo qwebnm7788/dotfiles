@@ -1,0 +1,30 @@
+# Modules
+zmodule environment
+zmodule input
+zmodule utility
+
+# Prompt
+zmodule duration-info
+zmodule git-info
+zmodule asciiship
+zmodule romkatv/powerlevel10k
+
+# Zsh
+
+# Completion
+zmodule zsh-users/zsh-completions --fpath src
+# Enables and configures smart and extensive tab completion. Must be sourced after all modules that add completion definitions.
+if [[ -d /opt/homebrew/share/zsh ]] && [[ $(uname) == Darwin ]] && [[ $(uname -m) == arm64 ]] ; then
+    zmodule /opt/homebrew/share/zsh/site-functions --fpath .
+fi
+zmodule completion
+
+# Modules that must be initialized last
+zmodule zsh-users/zsh-syntax-highlighting
+zmodule zsh-users/zsh-history-substring-search
+zmodule zsh-users/zsh-autosuggestions
+
+# Custom Modules
+zmodule romkatv/zsh-defer -d
+zmodule mroth/evalcache
+zmodule ohmyzsh/ohmyzsh --source plugins/git/git.plugin.zsh
