@@ -43,3 +43,21 @@ export PATH="/Users/jaewon/.antigravity/antigravity/bin:$PATH"
 
 # ADB
 export PATH="$PATH:/Users/jaewon/Library/Android/sdk/platform-tools"
+export PATH="$HOME/.local/bin:$PATH"
+
+# Go configuration
+export GOPATH=$(go env GOPATH)
+export PATH=$PATH:$GOPATH/bin
+
+# Claude worktree
+clx() {
+  local branch_name
+  if [ -z "$1" ]; then
+    branch_name="worktree-$(date +%Y%m%d-%H%M%S)"
+  else
+    branch_name="$1"
+  fi
+  git worktree add "../$branch_name" -b "$branch_name" && \
+  cd "../$branch_name" || return 1
+  claude --model opusplan --permission-mode plan
+}

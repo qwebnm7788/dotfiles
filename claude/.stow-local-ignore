@@ -1,0 +1,16 @@
+# Claude Code runtime data - ignore these subdirectories and files
+\.claude/cache
+\.claude/debug
+\.claude/file-history
+\.claude/history\.jsonl
+\.claude/projects
+\.claude/plans
+\.claude/plugins
+\.claude/stats-cache\.json
+\.claude/tasks
+\.claude/todos
+\.claude/session-env
+\.claude/shell-snapshots
+\.claude/ide
+\.claude/statuslines
+\.claude/settings\.json\.backup\.

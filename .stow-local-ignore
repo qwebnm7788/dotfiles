@@ -1,0 +1,16 @@
+# macOS metadata
+\.DS_Store
+\._.*
+
+# Editor temporary files
+\.swp$
+\.swo$
+~$
+^\.#\..*
+.*#.*#$
+
+# Common build/cache directories
+node_modules/
+\.pyc$
+__pycache__/
+\.egg-info/
