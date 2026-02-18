@@ -5,6 +5,24 @@
 # Claude Code runtime data
 claude/.claude/
 
+# Gemini runtime data (contains OAuth credentials)
+gemini/.gemini/
+
+# Files containing secrets
+.env
+.env.*
+*.secret
+*.credentials
+*secret*
+*credentials*
+id_rsa*
+id_ed25519*
+*.pem
+*.key
+.netrc
+.gcp*
+.aws/credentials
+
 # Editor temporary files
 *.swp
 *.swo
