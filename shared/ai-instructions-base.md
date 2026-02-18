@@ -1,5 +1,3 @@
-## Shared Base Instructions
-
 ## GROUND RULE
 
 <investigate_before_answering>
@@ -113,8 +111,3 @@ User asks for "directory structure/tree"?
 Need just current directory?
 → USE: ls -la  (OK for single dir)
 ```
-
-## Claude-Specific Instructions
-
-### When executing a new task
-To save main context scope, for code search, inspections, troubleshooting or analysis, use coder-searcher subagent where appropriate - giving the subagent full context background for the task(s) you assign it.
