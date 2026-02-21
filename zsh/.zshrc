@@ -49,7 +49,7 @@ export PATH="$HOME/.local/bin:$PATH"
 export GOPATH=$(go env GOPATH)
 export PATH=$PATH:$GOPATH/bin
 
-# Claude worktree
+# Claude worktree with agent selection
 clx() {
   local branch_name
   if [ -z "$1" ]; then
@@ -57,7 +57,26 @@ clx() {
   else
     branch_name="$1"
   fi
-  git worktree add "../$branch_name" -b "$branch_name" && \
+
+  # Create worktree and navigate to it
+  git worktree add "../$branch_name" -b "$branch_name" || return 1
   cd "../$branch_name" || return 1
-  claude --model opusplan --permission-mode plan
+
+  # Interactive agent selection
+  PS3="Select an AI agent (1-2): "
+  select agent in "Claude" "Gemini"; do
+    case $REPLY in
+      1)
+        claude --model opusplan --permission-mode plan
+        break
+        ;;
+      2)
+        gemini
+        break
+        ;;
+      *)
+        echo "Invalid selection. Please select 1 (Claude) or 2 (Gemini)."
+        ;;
+    esac
+  done
 }
