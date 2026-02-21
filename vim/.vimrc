@@ -10,6 +10,7 @@ set showmode                    "Show current mode down the bottom
 set gcr=a:blinkon0              "Disable cursor blink
 set visualbell                  "No sounds
 set autoread                    "Reload files changed outside vim
+set clipboard=unnamedplus
 
 " http://items.sjbach.com/319/configuring-vim-right
 set hidden
