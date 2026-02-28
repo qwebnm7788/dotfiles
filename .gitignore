@@ -12,6 +12,10 @@ gemini/.gemini/
 .gitconfig.user
 .ssh/config
 
+# Config
+karabiner/.config/karabiner/automatic_backups
+
+
 # Files containing secrets
 .env
 .env.*

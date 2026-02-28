@@ -1,5 +1,5 @@
 [tools]
 "github:anomalyco/opencode" = "latest"
 java = "temurin-21"
-node = "lts"
+node = "24"
 python = "3.12"
