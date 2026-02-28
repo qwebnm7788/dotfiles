@@ -8,6 +8,10 @@ claude/.claude/
 # Gemini runtime data (contains OAuth credentials)
 gemini/.gemini/
 
+# Personal config
+.gitconfig.user
+.ssh/config
+
 # Files containing secrets
 .env
 .env.*
