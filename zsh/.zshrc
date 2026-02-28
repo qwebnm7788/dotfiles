@@ -39,10 +39,10 @@ zsh-defer _evalcache mise activate zsh
 eval "$(rbenv init - zsh)"
 
 # Added by Antigravity
-export PATH="/Users/jaewon/.antigravity/antigravity/bin:$PATH"
+export PATH="$HOME/.antigravity/antigravity/bin:$PATH"
 
 # ADB
-export PATH="$PATH:/Users/jaewon/Library/Android/sdk/platform-tools"
+export PATH="$PATH:$HOME/Library/Android/sdk/platform-tools"
 export PATH="$HOME/.local/bin:$PATH"
 
 # Go configuration
@@ -158,3 +158,10 @@ cld() {
     git branch -D "$current_branch"
   fi
 }
+
+# bun completions
+[ -s "$HOME/.bun/_bun" ] && source "$HOME/.bun/_bun"
+
+# bun
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"
