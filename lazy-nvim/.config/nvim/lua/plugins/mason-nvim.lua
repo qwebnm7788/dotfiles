@@ -3,6 +3,9 @@ return {
   opts = {
     ensure_installed = {
       "gopls",
+      "golangci-lint",
+      "goimports",
+      "gofumpt",
     },
   },
 }
