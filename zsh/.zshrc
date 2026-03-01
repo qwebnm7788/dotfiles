@@ -165,3 +165,10 @@ cld() {
 # bun
 export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
+
+# >>> wt initialize >>>
+eval "$(wt shellenv)"
+# <<< wt initialize <<<
+
+alias vi='nvim'
+alias vim='nvim'
