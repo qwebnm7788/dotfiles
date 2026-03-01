@@ -4,13 +4,14 @@ return {
     formatters_by_ft = {
       go = { "goimports", "gofumpt" },
       lua = { "stylua" },
+      javascript = { "prettier" },
+      typescript = { "prettier" },
+      javascriptreact = { "prettier" },
+      typescriptreact = { "prettier" },
+      json = { "prettier" },
+      html = { "prettier" },
+      css = { "prettier" },
       -- python = { "isort", "black" },
-      -- javascript = { { "prettierd", "prettier" } },
-    },
-    -- Set up format-on-save
-    format_on_save = {
-      timeout_ms = 500,
-      lsp_fallback = true,
     },
   },
 }

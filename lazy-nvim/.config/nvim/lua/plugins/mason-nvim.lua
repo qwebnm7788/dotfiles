@@ -6,6 +6,8 @@ return {
       "golangci-lint",
       "goimports",
       "gofumpt",
+      "vtsls",
+      "prettier",
     },
   },
 }

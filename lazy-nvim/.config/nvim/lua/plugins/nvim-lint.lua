@@ -4,7 +4,7 @@ return {
     -- Event to trigger linting
     events = { "BufWritePost", "BufReadPost", "InsertLeave" },
     linters_by_ft = {
-      go = { "golangci-lint" },
+      go = { "golangcilint" },
       -- fish = { "fish" },
       -- Use the "*" filetype to run linters on all filetypes.
       -- ['*'] = { 'global linter' },
