@@ -3,10 +3,16 @@
 ._*
 
 # Claude Code runtime data
-claude/.claude/
+claude/.claude/*
+# Allow specific Claude config files
+!claude/.claude/CLAUDE.md
+!claude/.claude/CLAUDE-SPECIFIC.md
 
 # Gemini runtime data (contains OAuth credentials)
-gemini/.gemini/
+gemini/.gemini/*
+# Allow specific Gemini config files
+!gemini/.gemini/GEMINI.md
+!gemini/.gemini/GEMINI-SPECIFIC.md
 
 # Personal config
 .gitconfig.user
