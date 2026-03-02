@@ -1,3 +1,5 @@
+## Shared Base Instructions
+
 ## GROUND RULE
 
 <investigate_before_answering>
@@ -5,109 +7,92 @@ Never speculate about code you have not opened. If the user references a specifi
 </investigate_before_answering>
 
 <do_not_act_before_instructions>
-Do not jump into implementatation or changes files unless clearly instructed to make changes. When the user's intent is ambiguous, default to providing information, doing research, and providing recommendations rather than taking action. Only proceed with edits, modifications, or implementations when the user explicitly requests them.
+Do not jump into implementation or changes files unless clearly instructed to make changes. When the user's intent is ambiguous, default to providing information, doing research, and providing recommendations rather than taking action. Only proceed with edits, modifications, or implementations when the user explicitly requests them.
 </do_not_act_before_instructions>
 
-<use_parallel_tool_calls>
-If you intend to call multiple tools and there are no dependencies between the tool calls, make all of the independent tool calls in parallel. Prioritize calling tools simultaneously whenever the actions can be done in parallel rather than sequentially. For example, when reading 3 files, run 3 tool calls in parallel to read all 3 files into context at the same time. Maximize use of parallel tool calls where possible to increase speed and efficiency. However, if some tool calls depend on previous calls to inform dependent values like the parameters, do NOT call these tools in parallel and instead call them sequentially. Never use placeholders or guess missing parameters in tool calls.
-</use_parallel_tool_calls>
+- **No speculative features** - Don't add features, flags, or configuration unless users actively need them
+- **No premature abstraction** - Don't create utilities until you've written the same code three times
+- **Clarity over cleverness** - Prefer explicit, readable code over dense one-liners
+- **Justify new dependencies** - Each dependency is attack surface and maintenance burden
+- **No phantom features** - Don't document or validate features that aren't implemented
+- **Replace, don't deprecate** - When a new implementation replaces an old one, remove the old one entirely. No backward-compatible shims, dual config formats, or migration paths. Proactively flag dead code — it adds maintenance burden and misleads both developers and LLMs.
+- **Verify at every level** - Set up automated guardrails (linters, type checkers, pre-commit hooks, tests) as the first step, not an afterthought. Prefer structure-aware tools (ast-grep, LSPs, compilers) over text pattern matching. Review your own output critically. Every layer catches what the others miss.
+- **Bias toward action** - Decide and move for anything easily reversed; state your assumption so the reasoning is visible. Ask before committing to interfaces, data models, architecture, or destructive/write operations on external services.
+- **Finish the job** - Don't stop at the minimum that technically satisfies the request. Handle the edge cases you can see. Clean up what you touched. If something is broken adjacent to your change, flag it. But don't invent new scope — there's a difference between thoroughness and gold-plating.
+- **Agent-native by default** - Design so agents can achieve any outcome users can. Tools are atomic primitives; features are outcomes described in prompts. Prefer file-based state for transparency and portability. When adding UI capability, ask: can an agent achieve this outcome too?
 
-ALWAYS START WITH THESE COMMANDS FOR COMMON TASKS
+## Code Quality
 
-**Task: "List/summarize all files and directories"**
+### Hard limits
 
-```bash
-fd . -t f           # Lists ALL files recursively (FASTEST)
-# OR
-rg --files          # Lists files (respects .gitignore)
-```
+1. ≤100 lines/function, cyclomatic complexity ≤8
+2. ≤5 positional params
+3. 100-char line length
+4. Absolute imports only — no relative (`..`) paths
+5. Google-style docstrings on non-trivial public APIs
 
-**Task: "Search for content in files"**
+### Comments
 
-```bash
-rg "search_term"    # Search everywhere (FASTEST)
-```
+Code should be self-documenting. No commented-out code—delete it. If you need a comment to explain WHAT the code does, refactor the code instead.
 
-**Task: "Find files by name"**
+### Error handling
 
-```bash
-fd "filename"       # Find by name pattern (FASTEST)
-```
+- Fail fast with clear, actionable messages
+- Never swallow exceptions silently
+- Include context (what operation, what input, suggested fix)
 
-### Directory/File Exploration
+### Reviewing code
 
-```bash
-# FIRST CHOICE - List all files/dirs recursively:
-fd . -t f           # All files (fastest)
-fd . -t d           # All directories
-rg --files          # All files (respects .gitignore)
+Evaluate in order: architecture → code quality → tests → performance. Before reviewing, sync to latest remote (`git fetch origin`).
 
-# For current directory only:
-ls -la              # OK for single directory view
-```
+For each issue: describe concretely with file:line references, present options with tradeoffs when the fix isn't obvious, recommend one, and ask before proceeding.
 
-### BANNED - Never Use These Slow Tools
+### Testing
+**Test behavior, not implementation.** Tests should verify what code does, not how. If a refactor breaks your tests but not your code, the tests were wrong.
+**Test edges and errors, not just the happy path.** Empty inputs, boundaries, malformed data, missing files, network failures — bugs live in edges. Every error path the code handles should have a test that triggers it.
+**Mock boundaries, not logic.** Only mock things that are slow (network, filesystem), non-deterministic (time, randomness), or external services you don't control.
+**Verify tests catch failures.** Break the code, confirm the test fails, then fix. Use mutation testing (`cargo-mutants`, `mutmut`) to verify systematically. Use property-based testing (`proptest`, `hypothesis`) for parsers, serialization, and algorithms.
 
-* ❌ `tree` - NOT INSTALLED, use `fd` instead
-* ❌ `find` - use `fd` or `rg --files`
-* ❌ `grep` or `grep -r` - use `rg` instead
-* ❌ `ls -R` - use `rg --files` or `fd`
-* ❌ `cat file | grep` - use `rg pattern file`
+## Development
 
-### Use These Faster Tools Instead
+When adding dependencies, CI actions, or tool versions, always look up the current stable version — never assume from memory unless the user provides one.
 
-```bash
-# ripgrep (rg) - content search
-rg "search_term"                # Search in all files
-rg -i "case_insensitive"        # Case-insensitive
-rg "pattern" -t py              # Only Python files
-rg "pattern" -g "*.md"          # Only Markdown
-rg -1 "pattern"                 # Filenames with matches
-rg -c "pattern"                 # Count matches per file
-rg -n "pattern"                 # Show line numbers
-rg -A 3 -B 3 "error"            # Context lines
-rg " (TODO| FIXME | HACK)"      # Multiple patterns
+### CLI tools
 
-# ripgrep (rg) - file listing
-rg --files                      # List files (respects .gitignore)
-rg --files | rg "pattern"       # Find files by name
-rg --files -t md                # Only Markdown files
+| tool | replaces | usage |
+|------|----------|-------|
+| `ast-grep` | - | `ast-grep --pattern '$FUNC($$$)' --lang py` - AST-based code search |
+| `shellcheck` | - | `shellcheck script.sh` - shell script linter |
+| `shfmt` | - | `shfmt -i 2 -w script.sh` - shell formatter |
+| `actionlint` | - | `actionlint .github/workflows/` - GitHub Actions linter |
+| `zizmor` | - | `zizmor .github/workflows/` - Actions security audit |
+| `prek` | pre-commit | `prek run` - fast git hooks (Rust, no Python) |
+| `wt` | git worktree | `wt switch branch` - manage parallel worktrees |
 
-# fd - file finding
-fd -e js                        # All .js files (fast find)
-fd -x command {}                # Exec per-file
-fd -e md -x ls -la {}           # Example with ls
+Prefer `ast-grep` over ripgrep when searching for code structure (function calls, class definitions, imports, pattern matching across arguments). Use ripgrep for literal strings and log messages.
 
-# jq - JSON processing
-jq . data.json                  # Pretty-print
-jq -r .name file.json           # Extract field
-jq '.id = 0' x.json             # Modify field
-```
+### Bash
 
-### Search Strategy
+All scripts must start with `set -euo pipefail`. Lint: `shellcheck script.sh && shfmt -d script.sh`
 
-1. Start broad, then narrow: `rg "partial" | rg "specific"`
-2. Filter by type early: `rg -t python "def function_name"`
-3. Batch patterns: `rg "(pattern1|pattern2|pattern3)"`
-4. Limit scope: `rg "pattern" src/`
+## Workflow
 
-### INSTANT DECISION TREE
+**Before committing:**
+1. Re-read your changes for unnecessary complexity, redundant code, and unclear naming
+2. Run relevant tests — not the full suite
+3. Run linters and type checker — fix everything before committing
 
-```
-User asks to "list/show/summarize/explore files"?
-→ USE: fd . -t f  (fastest, shows all files)
-→ OR: rg --files  (respects .gitignore)
+**Commits:**
+- Imperative mood, ≤72 char subject line, one logical change per commit
+- Never amend/rebase commits already pushed to shared branches
+- Never push directly to main — use feature branches and PRs
+- Never commit secrets, API keys, or credentials — use `.env` files (gitignored) and environment variables
 
-User asks to "search/grep/find text content"?
-→ USE: rg "pattern"  (NOT grep!)
+**Hooks and worktrees:**
+- Install prek in every repo (`prek install`). Run `prek run` before committing. Configure auto-updates: `prek auto-update --cooldown-days 7`
+- Parallel subagents require worktrees. Each subagent MUST work in its own worktree (`wt switch <branch>`), not the main repo. Never share working directories.
 
-User asks to "find file/directory by name"?
-→ USE: fd "name"  (NOT find!)
+**Pull requests:**
+Describe what the code does now — not discarded approaches, prior iterations, or alternatives. Only describe what's in the diff.
 
-User asks for "directory structure/tree"?
-→ USE: fd . -t d  (directories) + fd . -t f  (files)
-→ NEVER: tree (not installed!)
-
-Need just current directory?
-→ USE: ls -la  (OK for single dir)
-```
+Use plain, factual language. A bug fix is a bug fix, not a "critical stability improvement." Avoid: critical, crucial, essential, significant, comprehensive, robust, elegant.
