@@ -1,2 +1,5 @@
 # Gemini runtime data - contains sensitive OAuth credentials
-\.gemini/
+\.gemini/*
+# Allow these specific markdown files
+!\.gemini/GEMINI.md
+!\.gemini/GEMINI-SPECIFIC.md
