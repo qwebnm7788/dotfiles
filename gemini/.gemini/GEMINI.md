@@ -1,1 +1,1 @@
-@include ~/ai-instructions-base.md
+@/Users/jaewon/ai-instructions-base.md
